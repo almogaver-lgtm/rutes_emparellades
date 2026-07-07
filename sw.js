@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'rutes-app-v1';
+const CACHE_NAME = 'rutes-app-v2';
 const TILES_CACHE_NAME = 'rutes-tiles-v1';
 
 const APP_ASSETS = [

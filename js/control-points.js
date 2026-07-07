@@ -55,6 +55,7 @@ window.ControlPointsModule = {
   },
 
   _clearVisuals() {
+    if (!this._map) return;
     this._markers.forEach(m => this._map.removeLayer(m));
     this._markers = [];
   },

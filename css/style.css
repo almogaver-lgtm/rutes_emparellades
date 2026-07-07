@@ -466,6 +466,14 @@ body {
   transition: transform 0.1s linear;
 }
 
+/* Roda de la brúixola (emoji interior) */
+.compass-rose {
+  display: block;
+  line-height: 1;
+  transition: transform 0.1s linear;
+  transform-origin: center center;
+}
+
 /* Badge Offline */
 #offline-badge {
   position: fixed;
