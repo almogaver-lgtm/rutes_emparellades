@@ -24,6 +24,11 @@
   padding: 0;
 }
 
+/* Classe utilitaria per amagar elements */
+.hidden {
+  display: none !important;
+}
+
 body {
   font-family: var(--font);
   color: var(--text-primary);
@@ -255,7 +260,7 @@ body {
 
 #sidebar.hidden {
   transform: translateX(100%);
-  display: flex !important; /* Mantenir flex quan es mou amb transform */
+  display: flex !important; /* Sobreescriu .hidden per al sidebar: usa transform en lloc de display:none */
 }
 
 .sidebar-header {
@@ -480,12 +485,16 @@ body {
   inset: 0;
   background: var(--modal-bg);
   z-index: 1002;
-  display: flex;
+  display: none; /* amagat per defecte */
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   padding: 16px;
+}
+
+#modal-overlay:not(.hidden) {
+  display: flex; /* visible quan s'elimina .hidden */
 }
 
 .modal {
