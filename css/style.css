@@ -258,9 +258,12 @@ body {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Quan el sidebar és amagat, es desplaça fora de pantalla i es desactiven els pointer-events
+   per garantir que no intercepta cap clic/tap de l'usuari */
 #sidebar.hidden {
   transform: translateX(100%);
-  display: flex !important; /* Sobreescriu .hidden per al sidebar: usa transform en lloc de display:none */
+  display: flex !important; /* Manté display:flex per a l'animació de transform */
+  pointer-events: none;     /* Evita que la capa invisible intercepti interaccions */
 }
 
 .sidebar-header {
@@ -485,16 +488,12 @@ body {
   inset: 0;
   background: var(--modal-bg);
   z-index: 1002;
-  display: none; /* amagat per defecte */
+  display: flex; /* la classe .hidden ho ocultarà quan calgui */
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   padding: 16px;
-}
-
-#modal-overlay:not(.hidden) {
-  display: flex; /* visible quan s'elimina .hidden */
 }
 
 .modal {
