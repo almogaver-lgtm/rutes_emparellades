@@ -26,6 +26,32 @@ window.AppState = {
   isOffline: !navigator.onLine
 };
 
+window.bindPress = function bindPress(element, handler) {
+  if (!element || typeof handler !== 'function') return;
+
+  let lastTouchLikePressAt = 0;
+  element.style.touchAction = 'manipulation';
+
+  element.addEventListener('pointerup', (event) => {
+    if (event.pointerType === 'mouse') return;
+    lastTouchLikePressAt = Date.now();
+    event.preventDefault();
+    event.stopPropagation();
+    handler(event);
+  });
+
+  element.addEventListener('click', (event) => {
+    if (Date.now() - lastTouchLikePressAt < 700) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    handler(event);
+  });
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('Starting Rutes Emparellades PWA initialization...');
 

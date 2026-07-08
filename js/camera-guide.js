@@ -42,12 +42,12 @@ window.CameraGuideModule = {
 
     const btnCapture = document.getElementById('btn-camera-capture');
     if (btnCapture) {
-      btnCapture.addEventListener('click', () => this.capture());
+      window.bindPress(btnCapture, () => this.capture());
     }
 
     const btnCancel = document.getElementById('btn-camera-cancel');
     if (btnCancel) {
-      btnCancel.addEventListener('click', () => this.stop());
+      window.bindPress(btnCancel, () => this.stop());
     }
   },
 

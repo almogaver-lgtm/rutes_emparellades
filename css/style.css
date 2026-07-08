@@ -29,6 +29,20 @@
   display: none !important;
 }
 
+button,
+.toolbar-btn,
+.align-btn,
+.mode-btn,
+.action-btn,
+.item-btn,
+.modal-btn,
+.camera-action-btn,
+.close-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+}
+
 body {
   font-family: var(--font);
   color: var(--text-primary);
@@ -597,6 +611,14 @@ body {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   padding: 16px;
+}
+
+#toolbar,
+#align-toolbar,
+#camera-guide-controls,
+#sidebar,
+.modal {
+  pointer-events: auto;
 }
 
 .modal {

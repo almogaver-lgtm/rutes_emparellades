@@ -52,22 +52,22 @@ window.AlignerModule = {
       window.MapModule.updateOverlayOpacity(this._opacity);
     });
 
-    document.getElementById('nudge-up').addEventListener('click', () => this._nudge(0, 1));
-    document.getElementById('nudge-down').addEventListener('click', () => this._nudge(0, -1));
-    document.getElementById('nudge-left').addEventListener('click', () => this._nudge(-1, 0));
-    document.getElementById('nudge-right').addEventListener('click', () => this._nudge(1, 0));
+    window.bindPress(document.getElementById('nudge-up'), () => this._nudge(0, 1));
+    window.bindPress(document.getElementById('nudge-down'), () => this._nudge(0, -1));
+    window.bindPress(document.getElementById('nudge-left'), () => this._nudge(-1, 0));
+    window.bindPress(document.getElementById('nudge-right'), () => this._nudge(1, 0));
 
-    document.getElementById('btn-scale-up').addEventListener('click', () => this._scale(1.02));
-    document.getElementById('btn-scale-down').addEventListener('click', () => this._scale(0.98));
+    window.bindPress(document.getElementById('btn-scale-up'), () => this._scale(1.02));
+    window.bindPress(document.getElementById('btn-scale-down'), () => this._scale(0.98));
 
-    document.getElementById('btn-rotate-cw').addEventListener('click', () => this._rotate(1));
-    document.getElementById('btn-rotate-ccw').addEventListener('click', () => this._rotate(-1));
+    window.bindPress(document.getElementById('btn-rotate-cw'), () => this._rotate(1));
+    window.bindPress(document.getElementById('btn-rotate-ccw'), () => this._rotate(-1));
 
-    document.getElementById('btn-align-confirm').addEventListener('click', () => this.confirmAlignment());
-    document.getElementById('btn-align-cancel').addEventListener('click', () => this.cancelAlignment());
+    window.bindPress(document.getElementById('btn-align-confirm'), () => this.confirmAlignment());
+    window.bindPress(document.getElementById('btn-align-cancel'), () => this.cancelAlignment());
 
-    document.getElementById('btn-perspective').addEventListener('click', () => this._togglePerspectiveMode());
-    document.getElementById('btn-controlpoints').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-perspective'), () => this._togglePerspectiveMode());
+    window.bindPress(document.getElementById('btn-controlpoints'), () => {
       window.EventBus.emit('app:mode-changed', { mode: 'control-points' });
     });
   },

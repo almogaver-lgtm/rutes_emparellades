@@ -73,21 +73,21 @@ window.UIModule = {
   },
 
   _setupDOMEvents() {
-    document.getElementById('btn-import').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-import'), () => {
       this.showImportDialog();
     });
 
-    document.getElementById('btn-align').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-align'), () => {
       window.EventBus.emit('ui:align-requested', {});
     });
 
-    document.getElementById('btn-gps').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-gps'), () => {
       window.GPSTracker.startTracking();
       window.MapModule.centerOnPosition();
       this.showToast('Centrant posicio GPS...', 'info', 1500);
     });
 
-    document.getElementById('btn-record').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-record'), () => {
       const isRecording = window.AppState ? window.AppState.isRecordingRoute : false;
       const isPaused = window.AppState ? window.AppState.isRoutePaused : false;
 
@@ -124,15 +124,15 @@ window.UIModule = {
       }
     });
 
-    document.getElementById('btn-compass').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-compass'), () => {
       window.EventBus.emit('ui:toggle-compass', {});
     });
 
-    document.getElementById('btn-menu').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-menu'), () => {
       this.showSidebar();
     });
 
-    document.getElementById('btn-close-sidebar').addEventListener('click', () => {
+    window.bindPress(document.getElementById('btn-close-sidebar'), () => {
       this.hideSidebar();
     });
   },
@@ -165,7 +165,7 @@ window.UIModule = {
       const button = document.createElement('button');
       button.className = `modal-btn ${btn.class || 'secondary'}`;
       button.textContent = btn.text;
-      button.addEventListener('click', btn.onClick);
+      window.bindPress(button, btn.onClick);
       buttonsContainer.appendChild(button);
     });
 
@@ -240,7 +240,7 @@ window.UIModule = {
       btnLoad.className = 'item-btn';
       btnLoad.textContent = '📂';
       btnLoad.title = 'Carregar mapa';
-      btnLoad.addEventListener('click', () => {
+      window.bindPress(btnLoad, () => {
         window.EventBus.emit('ui:load-map-requested', { id: map.id });
         this.hideSidebar();
       });
@@ -250,7 +250,7 @@ window.UIModule = {
       btnDelete.className = 'item-btn delete';
       btnDelete.textContent = '🗑️';
       btnDelete.title = 'Eliminar mapa';
-      btnDelete.addEventListener('click', () => {
+      window.bindPress(btnDelete, () => {
         if (confirm(`Segur que vols eliminar el mapa "${map.name}"?`)) {
           window.EventBus.emit('ui:delete-map-requested', { id: map.id });
         }
@@ -296,7 +296,7 @@ window.UIModule = {
       btnExport.className = 'item-btn';
       btnExport.textContent = '📤';
       btnExport.title = 'Exportar JSON';
-      btnExport.addEventListener('click', async () => {
+      window.bindPress(btnExport, async () => {
         try {
           const jsonStr = await window.StorageModule.exportRouteAsJSON(route.id);
           this.downloadFile(jsonStr, `${route.name.replace(/\s+/g, '_')}.json`, 'application/json');
@@ -310,7 +310,7 @@ window.UIModule = {
       btnDelete.className = 'item-btn delete';
       btnDelete.textContent = '🗑️';
       btnDelete.title = 'Eliminar ruta';
-      btnDelete.addEventListener('click', () => {
+      window.bindPress(btnDelete, () => {
         if (confirm(`Segur que vols eliminar la ruta "${route.name}"?`)) {
           window.StorageModule.deleteRoute(route.id);
         }
