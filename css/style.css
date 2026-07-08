@@ -44,6 +44,101 @@ body {
   inset: 0;
   z-index: 1;
   background-color: #242424;
+  transition: opacity var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+#camera-preview {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+  z-index: 0;
+}
+
+#map-container.camera-mode-active {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#map-container.camera-mode-active .leaflet-container {
+  background: transparent;
+}
+
+#map-container.camera-mode-active .leaflet-control-container {
+  opacity: 0.85;
+}
+
+#camera-guide-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 520px);
+  padding: 14px;
+  background: rgba(8, 14, 24, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  z-index: 1000;
+  box-shadow: var(--shadow);
+}
+
+.camera-guide-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.camera-guide-title {
+  min-width: 122px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+#camera-opacity-slider {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.camera-guide-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.camera-action-btn {
+  flex: 1;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.camera-action-btn.capture {
+  background: var(--success);
+  color: #07110b;
+}
+
+.camera-action-btn.capture:hover {
+  transform: translateY(-1px);
+  background: #24c764;
+}
+
+.camera-action-btn.cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.camera-action-btn.cancel:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* Modificació de Leaflet per adaptar-se al tema fosc */
@@ -655,4 +750,25 @@ body {
   border-radius: 50%;
   cursor: move;
   box-shadow: var(--shadow);
+}
+
+@media (max-width: 640px) {
+  #camera-guide-controls {
+    bottom: 16px;
+    width: calc(100vw - 24px);
+    padding: 12px;
+  }
+
+  .camera-guide-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .camera-guide-title {
+    min-width: 0;
+  }
+
+  .camera-guide-buttons {
+    flex-direction: column;
+  }
 }

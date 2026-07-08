@@ -8,7 +8,6 @@ window.UIModule = {
   },
 
   _setupListeners() {
-    // Escolta events de storage per confirmar accions
     window.EventBus.on('storage:map-saved', (data) => {
       this.showToast(`Mapa "${data.name}" desat correctament!`, 'success');
       this.setButtonState('btn-align', 'active');
@@ -26,7 +25,6 @@ window.UIModule = {
       this.updateRoutesList(data.routes);
     });
 
-    // Escolta dades de gravació
     window.EventBus.on('route:stats', (stats) => {
       this.updateStatsBar(stats);
     });
@@ -49,7 +47,6 @@ window.UIModule = {
       this.showSaveRouteDialog(data.routeData);
     });
 
-    // Escolta estat offline
     window.EventBus.on('app:offline', (data) => {
       const badge = document.getElementById('offline-badge');
       if (data.offline) {
@@ -59,12 +56,11 @@ window.UIModule = {
       }
     });
 
-    // Escolta canvis d'estat generals
     window.EventBus.on('image:imported', () => {
       this.setButtonState('btn-align', 'default');
       document.getElementById('btn-align').removeAttribute('disabled');
       document.getElementById('btn-align').classList.remove('disabled');
-      this.showToast('Imatge carregada. Iniciant alineació...', 'info');
+      this.showToast('Imatge carregada. Iniciant alineacio...', 'info');
     });
 
     window.EventBus.on('align:confirmed', () => {
@@ -77,7 +73,6 @@ window.UIModule = {
   },
 
   _setupDOMEvents() {
-    // Clics a la toolbar principal
     document.getElementById('btn-import').addEventListener('click', () => {
       this.showImportDialog();
     });
@@ -89,7 +84,7 @@ window.UIModule = {
     document.getElementById('btn-gps').addEventListener('click', () => {
       window.GPSTracker.startTracking();
       window.MapModule.centerOnPosition();
-      this.showToast('Centrant posició GPS...', 'info', 1500);
+      this.showToast('Centrant posicio GPS...', 'info', 1500);
     });
 
     document.getElementById('btn-record').addEventListener('click', () => {
@@ -99,13 +94,12 @@ window.UIModule = {
       if (!isRecording) {
         window.EventBus.emit('ui:toggle-route', { action: 'start' });
       } else {
-        // Diàleg per Pausar o Aturar ruta
         this.showModal({
-          title: 'Gravació de Ruta',
-          content: 'Què vols fer amb la ruta actual?',
+          title: 'Gravacio de Ruta',
+          content: 'Que vols fer amb la ruta actual?',
           buttons: [
             {
-              text: isPaused ? '▶️ Reprendre' : '⏸️ Pausar',
+              text: isPaused ? 'Reprendre' : 'Pausar',
               class: 'secondary',
               onClick: () => {
                 this.closeModal();
@@ -113,7 +107,7 @@ window.UIModule = {
               }
             },
             {
-              text: '⏹️ Aturar i Desar',
+              text: 'Aturar i Desar',
               class: 'primary',
               onClick: () => {
                 this.closeModal();
@@ -121,7 +115,7 @@ window.UIModule = {
               }
             },
             {
-              text: 'Cancel·lar',
+              text: 'Cancelar',
               class: 'secondary',
               onClick: () => this.closeModal()
             }
@@ -143,11 +137,9 @@ window.UIModule = {
     });
   },
 
-  // --- MODALS ---
-
   showModal({ title, content, buttons }) {
     const overlay = document.getElementById('modal-overlay');
-    overlay.innerHTML = ''; // Netejar
+    overlay.innerHTML = '';
 
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -187,18 +179,15 @@ window.UIModule = {
     document.getElementById('modal-overlay').innerHTML = '';
   },
 
-  // --- TOASTS ---
-
   showToast(message, type = 'info', duration = 3000) {
     const container = document.getElementById('toast-container');
-    
+
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
 
     container.appendChild(toast);
 
-    // Fade out i eliminació
     setTimeout(() => {
       toast.classList.add('fade-out');
       toast.addEventListener('transitionend', () => {
@@ -207,11 +196,8 @@ window.UIModule = {
     }, duration);
   },
 
-  // --- SIDEBAR ---
-
   showSidebar() {
     document.getElementById('sidebar').classList.remove('hidden');
-    // Demanar llistes a storage
     window.StorageModule.listMaps();
     window.StorageModule.listRoutes();
   },
@@ -234,7 +220,7 @@ window.UIModule = {
 
       const info = document.createElement('div');
       info.className = 'item-info';
-      
+
       const name = document.createElement('span');
       name.className = 'item-name';
       name.textContent = map.name;
@@ -290,7 +276,7 @@ window.UIModule = {
 
       const info = document.createElement('div');
       info.className = 'item-info';
-      
+
       const name = document.createElement('span');
       name.className = 'item-name';
       name.textContent = route.name;
@@ -348,7 +334,7 @@ window.UIModule = {
 
     if (state === 'recording') {
       btn.textContent = '⏸️';
-      btn.title = 'Ruta en gravació';
+      btn.title = 'Ruta en gravacio';
     } else if (state === 'paused') {
       btn.textContent = '▶️';
       btn.title = 'Ruta en pausa';
@@ -376,23 +362,29 @@ window.UIModule = {
     }
   },
 
-  // --- DIÀLEGS ---
-
   showImportDialog() {
     this.showModal({
       title: 'Importar Mapa',
-      content: 'Tria d\'on prové el mapa que vols calibrar:',
+      content: 'La via recomanada es obrir la camera guia amb OSM transparent al damunt i capturar quan coincideixi amb el mapa fisic.',
       buttons: [
         {
-          text: '📷 Fer Foto amb Càmera',
+          text: 'Camera Guia OSM',
           class: 'primary',
+          onClick: () => {
+            this.closeModal();
+            window.CameraGuideModule.start();
+          }
+        },
+        {
+          text: 'Fer Foto Directa',
+          class: 'secondary',
           onClick: () => {
             this.closeModal();
             window.ImporterModule.openCamera();
           }
         },
         {
-          text: '🖼️ Triar Imatge (Galeria/Fitxer)',
+          text: 'Triar Imatge o Fitxer',
           class: 'secondary',
           onClick: () => {
             this.closeModal();
@@ -400,7 +392,7 @@ window.UIModule = {
           }
         },
         {
-          text: 'Cancel·lar',
+          text: 'Cancelar',
           class: 'secondary',
           onClick: () => this.closeModal()
         }
@@ -429,7 +421,7 @@ window.UIModule = {
       content: content,
       buttons: [
         {
-          text: '💾 Desar al Dispositiu',
+          text: 'Desar al Dispositiu',
           class: 'primary',
           onClick: () => {
             const name = input.value.trim();
@@ -460,7 +452,7 @@ window.UIModule = {
     summary.style.lineHeight = '1.4';
     summary.innerHTML = `
       <strong>Resum de la Ruta:</strong><br>
-      Distància: ${this.formatDistance(routeData.stats.distance)}<br>
+      Distancia: ${this.formatDistance(routeData.stats.distance)}<br>
       Durada: ${this.formatDuration(routeData.stats.duration)}<br>
       Velocitat Mitjana: ${routeData.stats.avgSpeed} km/h
     `;
@@ -477,7 +469,7 @@ window.UIModule = {
       content: content,
       buttons: [
         {
-          text: '💾 Desar Ruta',
+          text: 'Desar Ruta',
           class: 'primary',
           onClick: () => {
             routeData.name = input.value.trim() || routeData.name;
@@ -497,8 +489,6 @@ window.UIModule = {
       ]
     });
   },
-
-  // --- FORMATTERS & UTILS ---
 
   formatDistance(meters) {
     if (meters < 1000) {

@@ -13,6 +13,9 @@
   <title>Rutes Emparellades</title>
 </head>
 <body>
+  <!-- Video per a la Càmera Guia en segon pla -->
+  <video id="camera-preview" autoplay playsinline class="hidden"></video>
+
   <!-- Contenidor del mapa Leaflet -->
   <div id="map-container"></div>
 
@@ -75,6 +78,18 @@
     <button id="btn-menu" class="toolbar-btn" title="Menú">☰</button>
   </div>
 
+  <!-- Barra d'eines per a la Càmera Guia (flotant inferior) -->
+  <div id="camera-guide-controls" class="hidden">
+    <div class="camera-guide-row">
+      <span class="camera-guide-title">Opacitat del Mapa</span>
+      <input type="range" id="camera-opacity-slider" min="0" max="100" value="50" title="Opacitat del mapa digital de guia">
+    </div>
+    <div class="camera-guide-buttons">
+      <button id="btn-camera-capture" class="camera-action-btn capture" title="Capturar i alinear exactament">📷 Capturar i Alinear</button>
+      <button id="btn-camera-cancel" class="camera-action-btn cancel" title="Tancar càmera guia">❌ Cancel·lar</button>
+    </div>
+  </div>
+
   <!-- Menú lateral (Sidebar) -->
   <div id="sidebar" class="hidden">
     <div class="sidebar-header">
@@ -126,6 +141,7 @@
   <script src="js/control-points.js"></script>
   <script src="js/gps-tracker.js"></script>
   <script src="js/compass.js"></script>
+  <script src="js/camera-guide.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
